@@ -4,7 +4,7 @@ from ultralytics import YOLO
 import cv2
 from teamAssigner import TeamAssigner
 import numpy as np
-#from cameraMovement import CameraMovementEstimation
+from cameraMovement import CameraMovementEstimation
 def main():
     videoFrames = readVideo('input videos/Turkiye_vs_Netherlands.mp4')
     tracker = Tracker('models/100EpochModel.pt')
