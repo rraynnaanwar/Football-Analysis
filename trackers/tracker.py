@@ -27,7 +27,7 @@ class Tracker:
         dfBallPositions = dfBallPositions.interpolate()
         dfBallPositions = dfBallPositions.bfill()
         ballPositions = [{1:{'bounding box' :x}}for x in dfBallPositions.to_numpy().tolist() ]
-        return 
+        return ballPositions
     
     def getObjectTracks(self,frames):
 

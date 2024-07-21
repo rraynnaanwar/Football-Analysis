@@ -6,8 +6,9 @@ from teamAssigner import TeamAssigner
 import numpy as np
 from cameraMovement import CameraMovementEstimation
 def main():
-    videoFrames = readVideo('input videos/Turkiye_vs_Netherlands.mp4')
+    videoFrames = readVideo('input videos/08fd33_4.mp4')
     tracker = Tracker('models/100EpochModel.pt')
+
     tracks = tracker.getObjectTracks(videoFrames)
     tracks['ball'] = tracker.interpolateBallPosition(tracks['ball'])
 
@@ -15,6 +16,8 @@ def main():
     teamBallControl = playerBallAssigner(tracker, tracks)
 
     outputVideoFrames = tracker.drawAnnotations(videoFrames, tracks, teamBallControl)
+    outputVideoFrames=setCameraMovement(outputVideoFrames)
+    
 
     saveVideo(outputVideoFrames, 'outputVideos/outputVideo.avi')
 
@@ -48,12 +51,14 @@ def playerBallAssigner(tracker, tracks):
     return teamBallControl
             
 
-#def setCameraMovement(self, videoFrames):
- #   cameraMovementEstimator = CameraMovementEstimation(videoFrames[0])
-   # movementPerFrame = cameraMovementEstimator.getCameraMovement(videoFrames)
-#
- #   return 
+def setCameraMovement(videoFrames):
+    cameraMovementEstimator = CameraMovementEstimation(videoFrames[0])
+    movementPerFrame = cameraMovementEstimator.getCameraMovement(videoFrames)
+    outPutFrames = cameraMovementEstimator.drawCameraMovement(videoFrames, movementPerFrame)
+    return outPutFrames
+     
 
 
 if __name__ == "__main__":
+    
     main()
