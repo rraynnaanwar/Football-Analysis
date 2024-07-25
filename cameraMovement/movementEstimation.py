@@ -24,6 +24,19 @@ class CameraMovementEstimation:
             criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10,0.03)
         )
 
+    def adJustPositions(self, tracks, cameraMovementPerFrame):
+        for object, objectTrack in tracks.items():
+            for frameNum, track in enumerate(objectTrack):
+                for trackID, trackInfo in track.items():
+                    if 'position' not in trackInfo:
+                        print(f"Warning: 'position' not found in trackInfo for {object}, frame {frameNum}, trackID {trackID}")
+                        continue
+                    position = trackInfo['position']
+                    cameraMovement = cameraMovementPerFrame[frameNum]
+                    positionAdjustment = (position[0] - cameraMovement[0], position[1] - cameraMovement[1])
+                    tracks[object][frameNum][trackID]['position adjustment'] = positionAdjustment
+
+
     def getCameraMovement(self, frames):
         cameraMovement = [[0,0]]*len(frames)
         oldGray = cv2.cvtColor(frames[0], cv2.COLOR_BGR2GRAY)

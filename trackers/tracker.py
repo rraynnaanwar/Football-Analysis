@@ -7,12 +7,25 @@ import cv2
 import numpy as np
 import pandas as pd
 sys.path.append('../')
-from utils import getCenterOfBox, getWidthOfBox, measureDistance
+from utils import getCenterOfBox, getWidthOfBox, measureDistance, getFootPosition
 class Tracker:
     def __init__(self, modelPath):
         self.model = YOLO(modelPath, verbose=False)
         self.tracker = sv.ByteTrack()
+    
+    def addPositionsToTracks(self, tracks):
+        for object, objectTracks in tracks.items():
+            for frameNum, track in enumerate(objectTracks):
+                for trackID, trackInfo in track.items():
+                    boundingBox = trackInfo['bounding box']
+                    if object == 'ball':
+                        position = getCenterOfBox(boundingBox)
+                    else:
+                        position = getFootPosition(boundingBox)
+                    tracks[object][frameNum][trackID]['position'] = position
         
+
+
     def detectFrames(self, frames):
             batchSize = 20
             detections = []
@@ -96,6 +109,7 @@ class Tracker:
                 frame = self.drawEllipse(frame, player["bounding box"], color, trackID)
                 if player.get('has ball', False):
                     frame = self.drawTriangle(frame, player['bounding box'], (0,0,255))
+                    
 
             for __, referee in refereeDict.items():
                 frame = self.drawEllipse(frame, referee["bounding box"], (0, 255, 255), None)
@@ -166,3 +180,5 @@ class Tracker:
                     minimumDistance = distance
                     assignedPlayer = playerID
         return assignedPlayer
+
+    
