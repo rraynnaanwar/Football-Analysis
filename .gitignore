@@ -1,8 +1,17 @@
-# Ignore .avi files
-*.avi
+# Ignore specific .avi files
+runs/detect/200EpochRun/Turkiye_vs_Netherlands.avi
+runs/detect/100EpochRun/Turkiye_vs_Netherlands.avi
+runs/detect/bestModel/08fd33_4.avi
+runs/detect/initalModel/08fd33_4.avi
 
-# Ignore .pt files
-*.pt
+# Ignore specific .pt files
+training/runs/detect/200EpochsTraining/weights/best.pt
+training/runs/detect/100EpochsTraining/weights/last.pt
+training/runs/detect/100EpochsTraining/weights/best.pt
+training/yolov5xu.pt
+yolov8x.pt
+models/200EpochModel.pt
+models/100EpochModel.pt
 
 # Ignore node_modules directory (example)
 node_modules/
