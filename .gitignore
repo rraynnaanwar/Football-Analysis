@@ -1,0 +1,11 @@
+# Ignore .avi files
+*.avi
+
+# Ignore .pt files
+*.pt
+
+# Ignore node_modules directory (example)
+node_modules/
+
+# Ignore all log files
+*.log
